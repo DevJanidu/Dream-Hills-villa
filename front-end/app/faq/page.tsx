@@ -48,7 +48,7 @@ export default function FAQPage() {
     <div className="flex flex-col min-h-screen bg-slate-50">
 
       {/* Header Section */}
-      <section className="bg-slate-900 pt-32 pb-20 px-4">
+      <section className="bg-slate-900 pt-40 pb-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal animation="fade-up">
             <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">

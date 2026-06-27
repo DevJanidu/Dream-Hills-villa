@@ -33,8 +33,8 @@ export function HeroSlider() {
             <img
               src={img}
               alt={`Luxury Villa Hero ${idx + 1}`}
-              // The subtle zoom (Ken Burns effect) happens over 10 seconds while the image is active
-              className={`w-full h-full object-cover brightness-[0.70] transition-transform duration-[10000ms] ease-out ${
+              // The cinematic zoom (Ken Burns effect) happens over 12 seconds
+              className={`w-full h-full object-cover brightness-[0.60] transition-transform duration-[12000ms] ease-linear ${
                 isActive ? "scale-110" : "scale-100"
               }`}
             />
@@ -42,9 +42,9 @@ export function HeroSlider() {
         )
       })}
       
-      {/* Smooth gradients to make text and the booking bar pop */}
-      <div className="absolute inset-0 bg-black/10 z-20 pointer-events-none" />
-      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none z-20" />
+      {/* Smooth richer gradients to make text and the booking bar pop */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent z-20 pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
       
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-30">
