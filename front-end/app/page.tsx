@@ -1,5 +1,7 @@
-import { AirbnbSearchBar } from "@/components/airbnb-search-bar"
+import { VillaBookingBar } from "@/components/villa-booking-bar"
 import { AirbnbListingCard } from "@/components/airbnb-listing-card"
+import { FeaturedSpaceSlider } from "@/components/featured-space-slider"
+import { HeroSlider } from "@/components/hero-slider"
 import { Button } from "@/components/ui/button"
 import { Wifi, Waves, MapPin, Users, ChevronRight } from "lucide-react"
 import Link from "next/link"
@@ -7,43 +9,17 @@ import Link from "next/link"
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navbar (Placeholder) */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 font-bold text-primary text-2xl tracking-tight">
-            <span className="text-[#FF385C]">DreamHills</span>
-          </div>
-          <nav className="hidden md:flex gap-6 font-medium text-sm">
-            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-            <Link href="/villa" className="hover:text-primary transition-colors">The Villa</Link>
-            <Link href="/about" className="hover:text-primary transition-colors">Our Story</Link>
-            <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/contact" className="text-sm font-medium hover:underline">Contact</Link>
-            <Button variant="airbnbOutline" className="hidden sm:inline-flex rounded-full">
-              Book Now
-            </Button>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="relative w-full h-[70vh] min-h-[600px] flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-            alt="Luxury Villa Hero" 
-            className="w-full h-full object-cover brightness-[0.85]"
-          />
-        </div>
+        <HeroSlider />
         
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center mt-[-10vh]">
-          <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg mb-6 tracking-tight max-w-3xl">
+          <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg mb-6 tracking-tight max-w-3xl animate-in fade-in zoom-in-95 slide-in-from-bottom-12 duration-1000 ease-out fill-mode-both">
             Escape to your private sanctuary in the hills.
           </h1>
-          <div className="w-full max-w-4xl mx-auto mt-8">
-            <AirbnbSearchBar />
+          <div className="w-full max-w-4xl mx-auto mt-8 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300 ease-out fill-mode-both">
+            <VillaBookingBar />
           </div>
         </div>
       </section>
@@ -74,48 +50,96 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Spaces / Similar Listings (Airbnb Style) */}
-      <section className="py-16 px-4 md:px-8 bg-secondary/30 w-full">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-end mb-10">
-            <div>
-              <h2 className="text-3xl font-semibold text-foreground tracking-tight">Explore the Spaces</h2>
-              <p className="text-muted-foreground mt-2 text-lg">Every corner designed for luxury and comfort.</p>
+      {/* Featured Spaces (Modern Bento/Hover Cards) */}
+      <section className="py-24 px-4 md:px-8 w-full bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[100px] -z-10 translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-100/30 rounded-full blur-[100px] -z-10 -translate-x-1/2 translate-y-1/2"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+            <div className="max-w-2xl">
+              <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-2 block">Villa Tour</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight leading-tight">
+                Explore the Spaces
+              </h2>
+              <p className="text-slate-600 mt-4 text-lg md:text-xl font-light">
+                Every corner designed for unparalleled luxury and comfort. Discover the meticulously crafted environments within Dream Hills.
+              </p>
             </div>
-            <Link href="/villa" className="hidden sm:flex items-center text-primary font-semibold hover:underline">
-              View full gallery <ChevronRight className="w-4 h-4 ml-1" />
+            <Link href="/villa" className="group inline-flex items-center justify-center px-6 py-3 rounded-full bg-slate-900 text-white font-medium hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 shrink-0">
+              View full gallery <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AirbnbListingCard 
-              image="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              location="The Grand Suite"
-              rating={5.0}
-              distance="Primary Bedroom"
-              dates="King Bed • En-suite • Balcony"
-              price={0}
-            />
-            <AirbnbListingCard 
-              image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              location="Infinity Pool & Deck"
-              rating={4.9}
-              distance="Outdoor Living"
-              dates="Sun Loungers • BBQ • Dining"
-              price={0}
-            />
-            <AirbnbListingCard 
-              image="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              location="Chef's Kitchen"
-              rating={4.8}
-              distance="Indoor Living"
-              dates="Fully Equipped • Island Seating"
-              price={0}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[300px] md:auto-rows-[400px]">
+            {/* Main Featured Space - Spans 2 cols on lg screens */}
+            <div className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 lg:col-span-2 cursor-pointer ring-1 ring-black/5 hover:ring-blue-400/50 hover:ring-2">
+              <FeaturedSpaceSlider />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none z-10"></div>
+              
+              <div className="absolute inset-0 p-8 flex flex-col justify-end pointer-events-none z-10">
+                <div className="flex flex-col items-start justify-end h-full">
+                  <span className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-white bg-white/20 backdrop-blur-md rounded-full border border-white/30">Primary Bedroom</span>
+                  <h3 className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75 ease-out text-4xl font-extrabold text-white mb-3">The Grand Suite</h3>
+                  <p className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150 ease-out text-white/90 line-clamp-2 max-w-xl text-lg font-light">
+                    Wake up to panoramic ocean views in a king-sized bed, featuring a spa-like en-suite bathroom and a private sprawling balcony.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Standard Space */}
+            <div className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer ring-1 ring-black/5 hover:ring-blue-400/50 hover:ring-2">
+              <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Infinity Pool & Deck" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+              
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <div className="flex flex-col items-start justify-end h-full">
+                  <span className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-white bg-white/20 backdrop-blur-md rounded-full border border-white/30">Outdoor Living</span>
+                  <h3 className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75 ease-out text-2xl font-bold text-white mb-2">Infinity Pool</h3>
+                  <p className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150 ease-out text-white/80 line-clamp-2 text-sm font-light">
+                    Seamlessly blending into the horizon with luxury sun loungers and an alfresco dining area.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Standard Space */}
+            <div className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer ring-1 ring-black/5 hover:ring-blue-400/50 hover:ring-2">
+              <img src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chef's Kitchen" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+              
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <div className="flex flex-col items-start justify-end h-full">
+                  <span className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-white bg-white/20 backdrop-blur-md rounded-full border border-white/30">Indoor Living</span>
+                  <h3 className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75 ease-out text-2xl font-bold text-white mb-2">Chef's Kitchen</h3>
+                  <p className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150 ease-out text-white/80 line-clamp-2 text-sm font-light">
+                    State-of-the-art appliances, grand marble island, and fully equipped for culinary excellence.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Spans 2 cols on lg screens */}
+            <div className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 lg:col-span-2 cursor-pointer hidden md:block ring-1 ring-black/5 hover:ring-blue-400/50 hover:ring-2">
+              <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Living Area" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+              
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <div className="flex flex-col items-start justify-end h-full">
+                  <span className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-white bg-white/20 backdrop-blur-md rounded-full border border-white/30">Entertainment</span>
+                  <h3 className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75 ease-out text-3xl font-bold text-white mb-2">Sunken Lounge</h3>
+                  <p className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150 ease-out text-white/80 line-clamp-2 max-w-lg font-light">
+                    A beautifully appointed open-plan living room featuring floor-to-ceiling windows and designer furnishings.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
           
-          <div className="mt-8 sm:hidden flex justify-center">
-            <Button variant="airbnbOutline" className="w-full">
+          <div className="mt-10 sm:hidden flex justify-center">
+            <Button variant="outline" className="w-full rounded-full py-6 text-base font-medium border-slate-300 text-slate-700">
               View full gallery
             </Button>
           </div>
@@ -170,44 +194,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t bg-secondary/30 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h4 className="font-semibold mb-4 text-foreground text-sm">Support</h4>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/faq" className="hover:underline">Help Center</Link></li>
-                <li><Link href="/contact" className="hover:underline">Contact Us</Link></li>
-                <li><Link href="/faq" className="hover:underline">Cancellation Options</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-foreground text-sm">Company</h4>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/about" className="hover:underline">About Us</Link></li>
-                <li><Link href="/careers" className="hover:underline">Careers</Link></li>
-                <li><Link href="/investors" className="hover:underline">Investors</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-foreground text-sm">Legal</h4>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/terms" className="hover:underline">Terms of Service</Link></li>
-                <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
-                <li><Link href="/cookies" className="hover:underline">Cookie Policy</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground">
-            <p>© 2024 DreamHills Villa, Inc. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <span className="hover:underline cursor-pointer font-semibold text-foreground">English (US)</span>
-              <span className="hover:underline cursor-pointer font-semibold text-foreground">$ USD</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+
     </div>
   )
 }
