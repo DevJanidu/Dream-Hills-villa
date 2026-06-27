@@ -5,8 +5,33 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DollarSign, Users, CalendarCheck, TrendingUp, AlertCircle, CheckCircle2 } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function DashboardOverview() {
+  const [stats, setStats] = useState({
+    totalRevenue: 45231.89,
+    totalBookings: 12,
+    upcomingCheckins: 5,
+    occupancyRate: 84
+  })
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/api/v1/dashboard/stats")
+        if (res.ok) {
+          const json = await res.json()
+          if (json.success && json.data) {
+            setStats(json.data)
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch stats", e)
+      }
+    }
+    fetchStats()
+  }, [])
+
   const recentBookings = [
     { id: "BK-4921", guest: "Sarah Johnson", dates: "Aug 15 - Aug 19", amount: "$6,600", status: "Confirmed" },
     { id: "BK-4922", guest: "Michael Chen", dates: "Aug 22 - Aug 25", amount: "$4,950", status: "Pending" },
@@ -35,7 +60,7 @@ export default function DashboardOverview() {
             <DollarSign className="w-4 h-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
+            <div className="text-2xl font-bold">${stats.totalRevenue.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground mt-1 flex items-center text-green-600">
               <TrendingUp className="w-3 h-3 mr-1" />
               +20.1% from last month
@@ -48,7 +73,7 @@ export default function DashboardOverview() {
             <CalendarCheck className="w-4 h-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">84%</div>
+            <div className="text-2xl font-bold">{stats.occupancyRate * 100}%</div>
             <p className="text-xs text-muted-foreground mt-1 text-green-600">
               +4% from last month
             </p>
@@ -60,7 +85,7 @@ export default function DashboardOverview() {
             <Users className="w-4 h-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
+            <div className="text-2xl font-bold">{stats.upcomingCheckins}</div>
             <p className="text-xs text-muted-foreground mt-1">
               Arriving in the next 30 days
             </p>

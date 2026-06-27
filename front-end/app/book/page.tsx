@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useLayoutEffect, useRef } from "react"
+import { useState, useLayoutEffect, useEffect, useRef } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
@@ -19,6 +19,26 @@ export default function AvailabilityPage() {
     from: new Date(),
     to: addDays(new Date(), 4),
   })
+  const [bookedDates, setBookedDates] = useState<Date[]>([])
+
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      try {
+        const start = format(new Date(), "yyyy-MM-dd")
+        const end = format(addDays(new Date(), 365), "yyyy-MM-dd")
+        const res = await fetch(`http://localhost:8080/api/v1/bookings/availability?startDate=${start}&endDate=${end}`)
+        if (res.ok) {
+          const json = await res.json()
+          if (json.success && json.data?.bookedDates) {
+            setBookedDates(json.data.bookedDates.map((d: string) => new Date(d)))
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch availability", e)
+      }
+    }
+    fetchAvailability()
+  }, [])
 
   const pageRef = useRef<HTMLDivElement>(null)
   const calendarRef = useRef<HTMLDivElement>(null)
@@ -141,7 +161,16 @@ export default function AvailabilityPage() {
                 mode="range"
                 defaultMonth={date?.from}
                 startMonth={new Date()}
-                disabled={{ before: new Date() }}
+                disabled={(date) => {
+                  const isPast = date < new Date(new Date().setHours(0, 0, 0, 0))
+                  const isBooked = bookedDates.some(
+                    (bookedDate) =>
+                      bookedDate.getDate() === date.getDate() &&
+                      bookedDate.getMonth() === date.getMonth() &&
+                      bookedDate.getFullYear() === date.getFullYear()
+                  )
+                  return isPast || isBooked
+                }}
                 selected={date}
                 onSelect={setDate}
                 numberOfMonths={1}
