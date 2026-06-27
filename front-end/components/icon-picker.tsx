@@ -32,23 +32,25 @@ export function IconPicker({ value, onChange }: IconPickerProps) {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between"
-        >
-          {value ? (
-            <div className="flex items-center gap-2">
-              {SelectedIcon && <SelectedIcon className="h-4 w-4" />}
-              {value}
-            </div>
-          ) : (
-            "Select icon..."
-          )}
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+          >
+            {value ? (
+              <div className="flex items-center gap-2">
+                {SelectedIcon && <SelectedIcon className="h-4 w-4" />}
+                {value}
+              </div>
+            ) : (
+              "Select icon..."
+            )}
+          </Button>
+        }
+      />
       <PopoverContent className="w-[300px] p-2">
         <Input
           placeholder="Search icons..."
