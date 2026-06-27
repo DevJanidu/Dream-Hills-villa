@@ -3,12 +3,13 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
-import { ChevronLeft, Lock, Star, Shield, CreditCard, Check } from "lucide-react"
+import { ChevronLeft, Lock, Star, Shield, CreditCard, Check, Landmark, Phone, Upload, SmartphoneNfc, Wallet, Bitcoin } from "lucide-react"
 import "../luxury.css"
 
 export default function CheckoutPage() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [agreed, setAgreed] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "bank" | "call" | "paypal" | "applepay" | "crypto">("card")
 
   useLayoutEffect(() => {
     let mounted = true
@@ -102,73 +103,230 @@ export default function CheckoutPage() {
                   Pay with
                 </h2>
 
-                {/* Card type selector */}
-                <div className="flex items-center gap-3 p-3 rounded-xl mb-4" style={{ background: "rgba(255,56,92,0.04)", border: "1.5px solid #FF385C" }}>
-                  <CreditCard className="w-5 h-5" style={{ color: "#FF385C" }} />
-                  <span className="text-sm font-semibold" style={{ color: "#222222" }}>Credit or debit card</span>
+                {/* Payment Method Selector */}
+                <div className="flex flex-col gap-3 mb-6">
+                  <div
+                    onClick={() => setPaymentMethod("card")}
+                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
+                    style={{
+                      background: paymentMethod === "card" ? "rgba(255,56,92,0.04)" : "#fff",
+                      border: paymentMethod === "card" ? "1.5px solid #FF385C" : "1.5px solid #DDDDDD"
+                    }}
+                  >
+                    <CreditCard className="w-5 h-5" style={{ color: paymentMethod === "card" ? "#FF385C" : "#717171" }} />
+                    <span className="text-sm font-semibold" style={{ color: paymentMethod === "card" ? "#222222" : "#717171" }}>Credit or debit card</span>
+                  </div>
+
+                  <div
+                    onClick={() => setPaymentMethod("bank")}
+                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
+                    style={{
+                      background: paymentMethod === "bank" ? "rgba(255,56,92,0.04)" : "#fff",
+                      border: paymentMethod === "bank" ? "1.5px solid #FF385C" : "1.5px solid #DDDDDD"
+                    }}
+                  >
+                    <Landmark className="w-5 h-5" style={{ color: paymentMethod === "bank" ? "#FF385C" : "#717171" }} />
+                    <span className="text-sm font-semibold" style={{ color: paymentMethod === "bank" ? "#222222" : "#717171" }}>Bank transfer</span>
+                  </div>
+
+                  <div
+                    onClick={() => setPaymentMethod("call")}
+                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
+                    style={{
+                      background: paymentMethod === "call" ? "rgba(255,56,92,0.04)" : "#fff",
+                      border: paymentMethod === "call" ? "1.5px solid #FF385C" : "1.5px solid #DDDDDD"
+                    }}
+                  >
+                    <Phone className="w-5 h-5" style={{ color: paymentMethod === "call" ? "#FF385C" : "#717171" }} />
+                    <span className="text-sm font-semibold" style={{ color: paymentMethod === "call" ? "#222222" : "#717171" }}>Reserve through a call</span>
+                  </div>
+
+                  <div
+                    onClick={() => setPaymentMethod("paypal")}
+                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
+                    style={{
+                      background: paymentMethod === "paypal" ? "rgba(255,56,92,0.04)" : "#fff",
+                      border: paymentMethod === "paypal" ? "1.5px solid #FF385C" : "1.5px solid #DDDDDD"
+                    }}
+                  >
+                    <Wallet className="w-5 h-5" style={{ color: paymentMethod === "paypal" ? "#FF385C" : "#717171" }} />
+                    <span className="text-sm font-semibold" style={{ color: paymentMethod === "paypal" ? "#222222" : "#717171" }}>PayPal</span>
+                  </div>
+
+                  <div
+                    onClick={() => setPaymentMethod("applepay")}
+                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
+                    style={{
+                      background: paymentMethod === "applepay" ? "rgba(255,56,92,0.04)" : "#fff",
+                      border: paymentMethod === "applepay" ? "1.5px solid #FF385C" : "1.5px solid #DDDDDD"
+                    }}
+                  >
+                    <SmartphoneNfc className="w-5 h-5" style={{ color: paymentMethod === "applepay" ? "#FF385C" : "#717171" }} />
+                    <span className="text-sm font-semibold" style={{ color: paymentMethod === "applepay" ? "#222222" : "#717171" }}>Apple Pay / Google Pay</span>
+                  </div>
+
+                  <div
+                    onClick={() => setPaymentMethod("crypto")}
+                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
+                    style={{
+                      background: paymentMethod === "crypto" ? "rgba(255,56,92,0.04)" : "#fff",
+                      border: paymentMethod === "crypto" ? "1.5px solid #FF385C" : "1.5px solid #DDDDDD"
+                    }}
+                  >
+                    <Bitcoin className="w-5 h-5" style={{ color: paymentMethod === "crypto" ? "#FF385C" : "#717171" }} />
+                    <span className="text-sm font-semibold" style={{ color: paymentMethod === "crypto" ? "#222222" : "#717171" }}>Cryptocurrency</span>
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
-                      Card number
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="1234 5678 9012 3456"
-                      className="luxury-input luxury-input-lg"
-                      maxLength={19}
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
+                {paymentMethod === "card" && (
+                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <div>
                       <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
-                        Expiration date
+                        Card number
                       </label>
                       <input
                         type="text"
-                        placeholder="MM / YY"
+                        placeholder="1234 5678 9012 3456"
+                        className="luxury-input luxury-input-lg"
+                        maxLength={19}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
+                          Expiration date
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="MM / YY"
+                          className="luxury-input"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
+                          CVV
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="•••"
+                          className="luxury-input"
+                          maxLength={4}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
+                        ZIP / Postal code
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="90210"
                         className="luxury-input"
                       />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
-                        CVV
+                        Name on card
                       </label>
                       <input
                         type="text"
-                        placeholder="•••"
+                        placeholder="John Doe"
                         className="luxury-input"
-                        maxLength={4}
                       />
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
-                      ZIP / Postal code
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="90210"
-                      className="luxury-input"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
-                      Name on card
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="John Doe"
-                      className="luxury-input"
-                    />
-                  </div>
-                </div>
+                )}
 
-                <div className="flex items-center gap-2 mt-4 p-3 rounded-xl" style={{ background: "#F7F7F7" }}>
+                {paymentMethod === "bank" && (
+                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="p-4 rounded-xl text-sm" style={{ background: "#F7F7F7", color: "#717171" }}>
+                      <p className="mb-2"><strong style={{ color: "#222222" }}>Bank Name:</strong> DreamHills Bank</p>
+                      <p className="mb-2"><strong style={{ color: "#222222" }}>Account Name:</strong> Dream Hills Resort</p>
+                      <p className="mb-2"><strong style={{ color: "#222222" }}>Account Number:</strong> 1234 5678 9101 1121</p>
+                      <p><strong style={{ color: "#222222" }}>Swift Code:</strong> DHRSUS33</p>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
+                        Upload Payment Receipt
+                      </label>
+                      <div className="border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-colors" style={{ borderColor: "#DDDDDD", backgroundColor: "#fff" }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#F7F7F7"} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#fff"}>
+                        <Upload className="w-6 h-6 mb-2" style={{ color: "#717171" }} />
+                        <span className="text-sm font-semibold mb-1" style={{ color: "#222222" }}>Click to upload</span>
+                        <span className="text-xs" style={{ color: "#717171" }}>SVG, PNG, JPG or PDF (max. 5MB)</span>
+                        <input type="file" className="hidden" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {paymentMethod === "call" && (
+                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="p-4 rounded-xl text-sm" style={{ background: "#F7F7F7", color: "#717171" }}>
+                      <p className="mb-2">Prefer to book over the phone? Our reservation specialists are available 24/7 to assist you with your booking.</p>
+                      <p className="text-lg font-bold mt-4" style={{ color: "#222222" }}>+1 (800) 123-4567</p>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
+                        Or request a callback
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Your phone number"
+                        className="luxury-input luxury-input-lg"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {paymentMethod === "paypal" && (
+                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="p-6 rounded-xl text-center border" style={{ borderColor: "#DDDDDD", background: "#fff" }}>
+                      <Wallet className="w-8 h-8 mx-auto mb-3" style={{ color: "#717171" }} />
+                      <p className="text-sm mb-4" style={{ color: "#717171" }}>You will be redirected to PayPal to complete your secure payment.</p>
+                      <button className="px-6 py-2 rounded-lg text-sm font-semibold transition-opacity hover:opacity-80" style={{ background: "#0070BA", color: "#fff" }}>
+                        Connect PayPal
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {paymentMethod === "applepay" && (
+                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="p-6 rounded-xl text-center border" style={{ borderColor: "#DDDDDD", background: "#fff" }}>
+                      <SmartphoneNfc className="w-8 h-8 mx-auto mb-3" style={{ color: "#717171" }} />
+                      <p className="text-sm mb-4" style={{ color: "#717171" }}>Pay quickly and securely with your mobile wallet.</p>
+                      <button className="px-6 py-2 rounded-lg text-sm font-semibold transition-opacity hover:opacity-80 flex items-center justify-center mx-auto" style={{ background: "#000", color: "#fff" }}>
+                        <SmartphoneNfc className="w-4 h-4 mr-2" />
+                        Pay with Apple / Google Pay
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {paymentMethod === "crypto" && (
+                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="p-4 rounded-xl text-sm" style={{ background: "#F7F7F7", color: "#717171" }}>
+                      <p className="mb-2">Send cryptocurrency directly to our secure wallet. Supported coins: BTC, ETH, USDC.</p>
+                      <p className="mt-4"><strong style={{ color: "#222222" }}>Wallet Address:</strong></p>
+                      <p className="font-mono mt-1 text-xs break-all" style={{ color: "#222222" }}>0x1234567890abcdef1234567890abcdef12345678</p>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1.5" style={{ color: "#717171" }}>
+                        Transaction Hash (optional)
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="0x..."
+                        className="luxury-input luxury-input-lg"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2 mt-6 p-3 rounded-xl" style={{ background: "#F7F7F7" }}>
                   <Lock className="w-4 h-4 shrink-0" style={{ color: "#717171" }} />
                   <p className="text-xs" style={{ color: "#717171" }}>
-                    Your payment info is encrypted with 256-bit SSL and never stored on our servers.
+                    Your information is encrypted with 256-bit SSL and never stored on our servers.
                   </p>
                 </div>
               </div>
@@ -213,7 +371,13 @@ export default function CheckoutPage() {
                 <Link href="/book/success" className="block">
                   <button ref={btnRef} className="reserve-btn" style={{ opacity: agreed ? 1 : 0.6 }}>
                     <Lock className="w-4 h-4 inline-block mr-2 -mt-0.5" />
-                    Confirm and pay — $6,600
+                    {paymentMethod === "card" && "Confirm and pay"}
+                    {paymentMethod === "bank" && "Confirm booking"}
+                    {paymentMethod === "call" && "Request reservation"}
+                    {paymentMethod === "paypal" && "Proceed with PayPal"}
+                    {paymentMethod === "applepay" && "Confirm and pay"}
+                    {paymentMethod === "crypto" && "Confirm crypto payment"}
+                    {" — $6,600"}
                   </button>
                 </Link>
               </div>
