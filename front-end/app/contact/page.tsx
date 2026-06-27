@@ -1,0 +1,57 @@
+"use client"
+
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+export default function ContactPage() {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur">
+        <div className="container flex h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+          <Link href="/" className="flex items-center gap-2 font-bold text-primary text-2xl tracking-tight">
+            <span className="text-[#FF385C]">DreamHills</span>
+          </Link>
+          <nav className="hidden md:flex gap-6 font-medium text-sm">
+            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+            <Link href="/villa" className="hover:text-primary transition-colors">The Villa</Link>
+            <Link href="/about" className="hover:text-primary transition-colors">Our Story</Link>
+            <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link>
+          </nav>
+        </div>
+      </header>
+      
+      <main className="max-w-4xl mx-auto px-4 py-24 w-full">
+        <h1 className="text-4xl md:text-5xl font-bold mb-12 text-foreground">Contact Us</h1>
+        <div className="grid md:grid-cols-2 gap-12">
+          <div>
+            <h2 className="text-2xl font-semibold mb-4">Get in touch</h2>
+            <p className="text-muted-foreground mb-8">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
+            <div className="space-y-4">
+              <p className="font-semibold text-foreground">Email: <a href="mailto:hello@dreamhills.com" className="font-normal hover:underline">hello@dreamhills.com</a></p>
+              <p className="font-semibold text-foreground">Phone: <a href="tel:+13105550199" className="font-normal hover:underline">+1 (310) 555-0199</a></p>
+              <p className="font-semibold text-foreground">Location: <span className="font-normal">Malibu, California, USA</span></p>
+            </div>
+          </div>
+          <div>
+            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <div>
+                <label className="text-sm font-semibold block mb-2">Name</label>
+                <Input placeholder="Your name" className="h-12" />
+              </div>
+              <div>
+                <label className="text-sm font-semibold block mb-2">Email</label>
+                <Input placeholder="you@example.com" type="email" className="h-12" />
+              </div>
+              <div>
+                <label className="text-sm font-semibold block mb-2">Message</label>
+                <textarea className="w-full min-h-[120px] rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" placeholder="How can we help?"></textarea>
+              </div>
+              <Button variant="airbnbPrimary" className="w-full">Send Message</Button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
